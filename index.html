@@ -784,6 +784,19 @@
             transition: color 0.3s;
         }
         .contact-item:hover { color: var(--accent); }
+        .contact-item.email-copy {
+            cursor: pointer;
+            position: relative;
+        }
+        .copy-hint {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+            transition: all 0.3s;
+        }
+        .contact-item.email-copy:hover .copy-hint {
+            color: var(--accent);
+        }
         .contact-item-icon {
             width: 40px;
             height: 40px;
@@ -1116,7 +1129,7 @@
                 with research published in <strong>IEEE</strong> and <strong>Springer</strong>.
             </p>
             <div class="hero-links">
-                <a href="ggfinalresume.pdf" class="hero-link primary" download>Resume</a>
+                <a href="https://drive.google.com/file/d/1keum6vGTWOLFa78YGeIFGstvFMKSAma9/view?usp=sharing" class="hero-link primary" target="_blank" rel="noopener noreferrer">Resume</a>
                 <a href="https://github.com/gxutxm" target="_blank" rel="noopener noreferrer" class="hero-link">GitHub</a>
                 <a href="https://linkedin.com/in/gautamgovindarasan" target="_blank" rel="noopener noreferrer" class="hero-link">LinkedIn</a>
                 <a href="#contact" class="hero-link">Reach Out</a>
@@ -1467,10 +1480,11 @@
                     Whether you have a question, want to collaborate, or just want to say hi — feel free to reach out!
                 </p>
                 <div class="contact-details">
-                    <a href="mailto:gautamgovindarasan@gmail.com" class="contact-item">
+                    <div class="contact-item email-copy" onclick="copyEmail()" title="Click to copy">
                         <span class="contact-item-icon">✉️</span>
-                        gautamgovindarasan@gmail.com
-                    </a>
+                        <span id="email-text">gautamgovindarasan@gmail.com</span>
+                        <span class="copy-hint" id="copy-hint">click to copy</span>
+                    </div>
                     <a href="https://linkedin.com/in/gautamgovindarasan" target="_blank" rel="noopener noreferrer" class="contact-item">
                         <span class="contact-item-icon">💼</span>
                         linkedin.com/in/gautamgovindarasan
@@ -1505,7 +1519,7 @@
 
     <footer>Gautam Govindarasan · 2025</footer>
 
-    <a href="ggfinalresume.pdf" class="resume-btn" download>Resume</a>
+    <a href="https://drive.google.com/file/d/1keum6vGTWOLFa78YGeIFGstvFMKSAma9/view?usp=sharing" class="resume-btn" target="_blank" rel="noopener noreferrer">Resume</a>
 
     <!-- Modal -->
     <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
@@ -1780,6 +1794,31 @@
             }
             
             return true;
+        }
+
+        // Copy email to clipboard
+        function copyEmail() {
+            const email = 'gautamgovindarasan@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                const hint = document.getElementById('copy-hint');
+                hint.textContent = 'copied!';
+                hint.style.color = 'var(--accent)';
+                setTimeout(() => {
+                    hint.textContent = 'click to copy';
+                    hint.style.color = '';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                const hint = document.getElementById('copy-hint');
+                hint.textContent = 'copied!';
+                setTimeout(() => { hint.textContent = 'click to copy'; }, 2000);
+            });
         }
     </script>
 </body>
